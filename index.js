@@ -33,10 +33,12 @@ function createGrid(size) {
 }
 
 clearBtn.addEventListener('click', (e) => {
-    const newGridSize = window.prompt(
+    let newGridSize = window.prompt(
         'Please type the number of squares per side of the new canvas:'
     );
-    createGrid(newGridSize);
+    if (newGridSize !== null && newGridSize !== '') {
+        createGrid(newGridSize);
+    }
 });
 
 divContainer.classList.add('container');
