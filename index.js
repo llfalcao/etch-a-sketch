@@ -15,6 +15,7 @@ function createGrid(size) {
             const div = document.createElement('div');
             div.id = `square-${++squareId}`;
             div.classList.add('square');
+            div.style.backgroundColor = 'white';
             divContainer.appendChild(div);
         }
     } else if (sizeDif < 0) {
@@ -32,7 +33,46 @@ function createGrid(size) {
     lastKnownSize = size;
 }
 
-clearBtn.addEventListener('click', (e) => {
+function clearCanvas() {
+    const squares = document.querySelectorAll('.square');
+    squares.forEach((square) => {
+        square.style.backgroundColor = 'white';
+    });
+}
+
+function draw() {
+    const squares = document.querySelectorAll('.square');
+    const colors = document.querySelectorAll('.color');
+    let currentColor = 'black';
+
+    colors.forEach((color) => {
+        color.style.backgroundColor = `${color.id}`;
+        color.addEventListener('click', () => {
+            currentColor = color.style.backgroundColor;
+        });
+    });
+
+    squares.forEach((square) => {
+        let opacity = 0;
+
+        square.addEventListener('mouseover', () => {
+            if (currentColor !== square.style.backgroundColor) {
+                opacity = 0;
+            }
+
+            if (opacity === 100) {
+                opacity = 100;
+            } else {
+                opacity = opacity + 10;
+            }
+
+            square.style.backgroundColor = currentColor;
+            square.style.opacity = `${opacity}%`;
+        });
+    });
+}
+
+clearBtn.addEventListener('click', () => {
     let newGridSize = parseInt(
         prompt(
             'Please type the number of squares per side of the new canvas (up to 100):'
@@ -40,8 +80,9 @@ clearBtn.addEventListener('click', (e) => {
     );
 
     if (newGridSize > 0 && newGridSize <= 100) {
-        console.log(typeof newGridSize);
+        clearCanvas();
         createGrid(newGridSize);
+        draw();
     }
 });
 
@@ -49,3 +90,4 @@ divContainer.classList.add('container');
 body.appendChild(divContainer);
 
 createGrid(16);
+draw();
