@@ -11,32 +11,41 @@ submit {
 }
 
 body {
-    background-color: #742424;
-    background-image: url('assets/img/background.png');
+    background-image: url('assets/img/background.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #ddd;
     width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem 0;
-    gap: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+h1 {
+    text-shadow: 0 0 5px rgb(48, 48, 48);
+    color: rgb(255, 237, 90);
+    font-family: 'Lobster Two', serif;
+    font-size: 5.1vh;
+    text-align: center;
 }
 
 #main {
+    background-color: #b32c2c;
+    border-radius: 2rem;
+    box-shadow: 0 0 8px rgb(0, 0, 0);
     width: 100%;
     max-width: 80vh;
-    height: 100vh;
+    height: 90vh;
     display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    padding: 0 1rem;
+    padding: 1rem;
 }
 
 .btn {
@@ -48,11 +57,9 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
         Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     cursor: pointer;
-    width: 10%;
     min-height: 5%;
     font-size: 1rem;
-    line-height: 0rem;
-    margin-top: 0.5rem;
+    line-height: 0;
 }
 
 .btn:active {
@@ -61,15 +68,13 @@ body {
 }
 
 .container {
-    border-radius: 0.25rem;
-    border: 0.25rem solid rgb(49, 38, 145);
-    width: 100%;
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(16, 1fr);
-    grid-auto-flow: column;
     aspect-ratio: 1;
+    width: 85%;
     background-color: #fff;
+    border: 0.25rem solid #841e1e;
 }
 
 .square {
@@ -81,11 +86,9 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    padding: 0.5rem 0;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.23);
     border-radius: 0.25rem;
     width: 80%;
-    min-height: 3rem;
 }
 
 .color {

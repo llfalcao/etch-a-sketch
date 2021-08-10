@@ -1,4 +1,3 @@
-const body = document.querySelector('body');
 const clearBtn = document.querySelector('#clear');
 const divContainer = document.createElement('div');
 
@@ -36,12 +35,13 @@ function draw() {
             if (newColor === '255, 255, 255') {
                 if (opacity === 0) {
                     opacity = 0;
+                    square.style.borderColor = `rgba(245, 245, 245)`;
                 } else {
                     opacity = opacity - 10;
+                    square.style.borderColor = `rgba(245, 245, 245, 0.1)`;
                 }
                 square.style.backgroundColor = `
                         rgba(${currentColor}, ${opacity}%)`;
-                square.style.borderColor = `rgba(245, 245, 245, 0.1)`;
             } else {
                 if (newColor !== currentColor) {
                     opacity = 0;
@@ -72,10 +72,9 @@ clearBtn.addEventListener('click', () => {
     }
 });
 
-const main = document.querySelector('main');
-
+const pallet = document.querySelector('#pallet');
 divContainer.classList.add('container');
-main.appendChild(divContainer);
+pallet.insertAdjacentElement('beforebegin', divContainer);
 
 const colors = document.querySelectorAll('.color');
 let newColor = '0, 0, 0';
