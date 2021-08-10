@@ -41,6 +41,7 @@ function draw() {
                 }
                 square.style.backgroundColor = `
                         rgba(${currentColor}, ${opacity}%)`;
+                square.style.borderColor = `rgba(245, 245, 245, 0.1)`;
             } else {
                 if (newColor !== currentColor) {
                     opacity = 0;
