@@ -1,7 +1,6 @@
 const body = document.querySelector('body');
 const clearBtn = document.querySelector('#clear');
 const divContainer = document.createElement('div');
-let lastKnownSize = 0;
 
 function createGrid(size) {
     const squaredSize = Math.pow(size, 2);
@@ -15,8 +14,7 @@ function createGrid(size) {
         const div = document.createElement('div');
         div.id = `square-${i}`;
         div.classList.add('square');
-        div.style.backgroundColor = 'white';
-        div.style.opacity = '0';
+        div.style.backgroundColor = '#fff';
         divContainer.appendChild(div);
     }
 
@@ -26,41 +24,45 @@ function createGrid(size) {
 
 function draw() {
     const squares = document.querySelectorAll('.square');
-    const colors = document.querySelectorAll('.color');
-    let newColor = 'black';
-
-    colors.forEach((color) => {
-        color.style.backgroundColor = `${color.id}`;
-        color.addEventListener('click', () => {
-            newColor = color.style.backgroundColor;
-        });
-    });
 
     squares.forEach((square) => {
         let opacity = 0;
 
         square.addEventListener('mouseenter', () => {
-            if (newColor !== square.style.backgroundColor) {
-                square.style.opacity = '0';
-                opacity = 0;
-            }
-            if (opacity === 100) {
-                opacity = 100;
-            } else {
-                opacity = opacity + 10;
-            }
+            let currentColor = square.style.backgroundColor;
+            let [r, g, b] = currentColor.match(/[\d\.]+/g);
+            currentColor = `${r}, ${g}, ${b}`;
 
-            square.style.backgroundColor = newColor;
-            square.style.opacity = `${opacity / 100}`;
+            if (newColor === '255, 255, 255') {
+                if (opacity === 0) {
+                    opacity = 0;
+                } else {
+                    opacity = opacity - 10;
+                }
+                square.style.backgroundColor = `
+                        rgba(${currentColor}, ${opacity}%)`;
+            } else {
+                if (newColor !== currentColor) {
+                    opacity = 0;
+                }
+
+                if (opacity === 100) {
+                    opacity = 100;
+                } else {
+                    opacity = opacity + 10;
+                }
+
+                square.style.backgroundColor = `
+                        rgba(${newColor}, ${opacity}%)`;
+                square.style.borderColor = `rgba(${newColor}, 0.1)`;
+            }
         });
     });
 }
 
 clearBtn.addEventListener('click', () => {
     let newGridSize = parseInt(
-        prompt(
-            'Please type the number of squares per side of the new canvas (up to 100):'
-        )
+        prompt('Set the number of squares per side (up to 100):')
     );
 
     if (newGridSize > 0 && newGridSize <= 100) {
@@ -69,8 +71,23 @@ clearBtn.addEventListener('click', () => {
     }
 });
 
+const main = document.querySelector('main');
+
 divContainer.classList.add('container');
-body.appendChild(divContainer);
+main.appendChild(divContainer);
+
+const colors = document.querySelectorAll('.color');
+let newColor = '0, 0, 0';
+
+colors.forEach((color) => {
+    color.style.backgroundColor = `${color.id}`;
+    color.addEventListener('click', () => {
+        newColor = window
+            .getComputedStyle(color, null)
+            .getPropertyValue('background-color')
+            .slice(4, -1);
+    });
+});
 
 createGrid(16);
 draw();
