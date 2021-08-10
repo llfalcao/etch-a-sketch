@@ -5,69 +5,53 @@ let lastKnownSize = 0;
 
 function createGrid(size) {
     const squaredSize = Math.pow(size, 2);
-    const sqLastKnownSize = Math.pow(lastKnownSize, 2);
+    const squares = document.querySelectorAll('.square');
 
-    let sizeDif = squaredSize - sqLastKnownSize;
+    squares.forEach((square) => {
+        square.remove();
+    });
 
-    if (sizeDif > 0) {
-        let squareId = sqLastKnownSize;
-        for (let i = 1; i <= sizeDif; i++) {
-            const div = document.createElement('div');
-            div.id = `square-${++squareId}`;
-            div.classList.add('square');
-            div.style.backgroundColor = 'white';
-            divContainer.appendChild(div);
-        }
-    } else if (sizeDif < 0) {
-        sizeDif = sizeDif * -1;
-        let squareId = sqLastKnownSize;
-        for (let i = 0; i < sizeDif; i++) {
-            const div = document.querySelector(`#square-${squareId--}`);
-            div.remove();
-        }
+    for (let i = 1; i <= squaredSize; i++) {
+        const div = document.createElement('div');
+        div.id = `square-${i}`;
+        div.classList.add('square');
+        div.style.backgroundColor = 'white';
+        div.style.opacity = '0';
+        divContainer.appendChild(div);
     }
 
     divContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     divContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
-
-    lastKnownSize = size;
-}
-
-function clearCanvas() {
-    const squares = document.querySelectorAll('.square');
-    squares.forEach((square) => {
-        square.style.backgroundColor = 'white';
-    });
 }
 
 function draw() {
     const squares = document.querySelectorAll('.square');
     const colors = document.querySelectorAll('.color');
-    let currentColor = 'black';
+    let newColor = 'black';
 
     colors.forEach((color) => {
         color.style.backgroundColor = `${color.id}`;
         color.addEventListener('click', () => {
-            currentColor = color.style.backgroundColor;
+            newColor = color.style.backgroundColor;
         });
     });
 
     squares.forEach((square) => {
         let opacity = 0;
 
-        square.addEventListener('mouseover', () => {
-            if (currentColor !== square.style.backgroundColor) {
+        square.addEventListener('mouseenter', () => {
+            if (newColor !== square.style.backgroundColor) {
+                square.style.opacity = '0';
                 opacity = 0;
             }
-
             if (opacity === 100) {
                 opacity = 100;
             } else {
                 opacity = opacity + 10;
             }
 
-            square.style.backgroundColor = currentColor;
-            square.style.opacity = `${opacity}%`;
+            square.style.backgroundColor = newColor;
+            square.style.opacity = `${opacity / 100}`;
         });
     });
 }
@@ -80,7 +64,6 @@ clearBtn.addEventListener('click', () => {
     );
 
     if (newGridSize > 0 && newGridSize <= 100) {
-        clearCanvas();
         createGrid(newGridSize);
         draw();
     }
